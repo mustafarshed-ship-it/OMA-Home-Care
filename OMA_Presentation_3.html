@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMA — Brand Direction</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0A4FA3;--green:#00875A;--navy:#001E4A;
+  --blue2:#0066CC;--green2:#006644;--white:#fff;
+  --ink:#0D0D0D;--soft:#6B6B6B;--faint:#B0B0B0;
+  --surface:#F9F8F6;--border:rgba(0,0,0,0.08);
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Cairo',sans-serif;background:var(--navy)}
+
+/* SLIDES CONTAINER */
+.deck{width:100%;height:100vh;position:relative}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
+  overflow:hidden;
+}
+.slide.active{opacity:1;pointer-events:all}
+
+/* NAV */
+.nav{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:16px;z-index:100;
+  background:rgba(0,0,0,0.5);backdrop-filter:blur(12px);
+  padding:10px 20px;border-radius:99px;border:1px solid rgba(255,255,255,0.1);
+}
+.nav-btn{
+  width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);
+  background:transparent;color:#fff;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.nav-btn:hover{background:rgba(255,255,255,0.1)}
+.nav-counter{font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:2px;min-width:56px;text-align:center}
+.progress{
+  position:fixed;top:0;left:0;height:2px;background:var(--green);
+  transition:width .4s ease;z-index:100;
+}
+
+/* ── SLIDE TEMPLATES ── */
+.s-dark{background:var(--navy);color:#fff}
+.s-blue{background:var(--blue);color:#fff}
+.s-light{background:var(--surface);color:var(--ink)}
+.s-white{background:#fff;color:var(--ink)}
+
+/* COMMON ELEMENTS */
+.slide-inner{flex:1;display:flex;flex-direction:column;justify-content:center;padding:72px 80px}
+.slide-inner.pad-sm{padding:48px 80px}
+.tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;opacity:.4;margin-bottom:12px}
+.h1{font-size:72px;font-weight:900;line-height:.95;letter-spacing:-2px}
+.h2{font-size:48px;font-weight:900;line-height:1;letter-spacing:-1px}
+.h3{font-size:32px;font-weight:800;line-height:1.2}
+.h4{font-size:22px;font-weight:700;line-height:1.3}
+.body{font-size:16px;line-height:1.9;opacity:.7}
+.rule{width:40px;height:2px;background:var(--green);margin:20px 0}
+.accent{color:var(--green)}
+.accent-blue{color:var(--blue)}
+em{color:var(--green);font-style:normal}
+
+/* SLIDE 1 — COVER */
+#s1{background:var(--navy)}
+#s1 .cover-inner{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;padding:80px;position:relative;overflow:hidden;
+}
+#s1 .bg-circle{
+  position:absolute;border-radius:50%;pointer-events:none;
+}
+#s1 .wordmark{font-size:160px;font-weight:900;letter-spacing:-8px;color:#fff;line-height:.85}
+#s1 .wordmark span{color:var(--green)}
+#s1 .sub{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:24px}
+#s1 .meta-row{
+  display:flex;gap:40px;padding:32px 80px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+#s1 .meta-item{display:flex;flex-direction:column;gap:4px}
+#s1 .meta-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25)}
+#s1 .meta-val{font-size:14px;color:rgba(255,255,255,.6);font-weight:600}
+
+/* SLIDE 2 — MARKET PROBLEM */
+#s2{background:#fff}
+#s2 .split{display:grid;grid-template-columns:1fr 80px 1fr;gap:0;flex:1}
+#s2 .side{display:flex;flex-direction:column;justify-content:center;padding:60px 56px}
+#s2 .side-left{background:var(--surface)}
+#s2 .side-right{background:var(--surface)}
+#s2 .middle{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;position:relative}
+#s2 .middle-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:700;writing-mode:vertical-rl;text-orientation:mixed}
+#s2 .vs-dot{width:12px;height:12px;border-radius:50%;background:var(--green);margin:12px 0}
+#s2 .side-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-weight:700}
+#s2 .side-big{font-size:40px;font-weight:900;line-height:1;margin-bottom:16px}
+#s2 .side-desc{font-size:14px;line-height:1.8;color:var(--soft)}
+#s2 .oma-badge{
+  position:absolute;background:var(--blue);color:#fff;
+  padding:12px 20px;border-radius:8px;font-size:22px;font-weight:900;
+  letter-spacing:-1px;box-shadow:0 8px 32px rgba(10,79,163,.3);
+}
+#s2 .slide-header{padding:40px 80px 0;border-bottom:1px solid var(--border)}
+#s2 .slide-header .tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700;margin:0;opacity:1}
+
+/* SLIDE 3 — BRAND ROLE */
+#s3 .content{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1}
+#s3 .left{padding:64px 56px 64px 80px;display:flex;flex-direction:column;justify-content:center}
+#s3 .right{background:var(--blue);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;padding:64px;position:relative;overflow:hidden}
+#s3 .buyer-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:20px 24px;margin-bottom:12px;width:100%}
+#s3 .buyer-icon{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}
+#s3 .buyer-text{font-size:15px;color:#fff;font-weight:600;line-height:1.5}
+
+/* SLIDE 4 — CORE IDEA */
+#s4{background:var(--navy)}
+#s4 .inner{flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:80px}
+#s4 .big-idea{font-size:56px;font-weight:900;line-height:1.15;color:#fff;max-width:700px}
+#s4 .big-idea span{color:var(--green)}
+
+/* SLIDE 5 — NAME LOGIC */
+#s5{background:#fff}
+#s5 .letters{display:flex;gap:0;align-items:stretch;flex:1}
+#s5 .letter-block{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:48px 40px;border-left:1px solid var(--border)}
+#s5 .letter-block:last-child{border-left:none}
+#s5 .l-char{font-size:120px;font-weight:900;line-height:.85;margin-bottom:24px}
+#s5 .l-word{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:8px}
+#s5 .l-desc{font-size:13px;color:var(--soft);line-height:1.7}
+#s5 .dot-block{background:var(--navy);color:#fff}
+#s5 .dot-char{color:var(--green)}
+#s5 .header{padding:40px 80px;border-bottom:1px solid var(--border)}
+
+/* SLIDE 6 — RTB */
+#s6 .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+#s6 .rtb-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:28px 32px}
+#s6 .rtb-num{font-size:48px;font-weight:900;color:var(--green);line-height:1;margin-bottom:12px;opacity:.6}
+#s6 .rtb-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+#s6 .rtb-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.8}
+
+/* SLIDE 7 — PERSONALITY */
+#s7{background:#fff}
+#s7 .traits{display:flex;flex-direction:column;gap:0;flex:1;border-top:1px solid var(--border)}
+#s7 .trait{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid var(--border)}
+#s7 .trait-word{padding:20px 32px;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;justify-content:center}
+#s7 .tw-ar{font-size:22px;font-weight:900;color:var(--ink)}
+#s7 .tw-dot{width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:6px}
+#s7 .trait-desc{padding:20px 40px;display:flex;align-items:center;font-size:14px;color:var(--soft);line-height:1.7}
+#s7 .slide-header{padding:36px 80px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+
+/* SLIDE 8 — VERBAL IDENTITY */
+#s8{background:var(--navy)}
+#s8 .verbal-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;flex:1}
+#s8 .verbal-col{padding:40px 48px;display:flex;flex-direction:column}
+#s8 .verbal-col.yes{background:rgba(0,135,90,.08)}
+#s8 .verbal-col.no{background:rgba(255,255,255,.02)}
+#s8 .v-head{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;font-weight:700}
+#s8 .yes .v-head{color:var(--green)}
+#s8 .no .v-head{color:rgba(255,255,255,.3)}
+#s8 .v-item{font-size:15px;color:rgba(255,255,255,.7);padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06);line-height:1.5;display:flex;gap:10px;align-items:flex-start}
+#s8 .v-item::before{content:'—';opacity:.3;flex-shrink:0}
+#s8 .yes .v-item{color:rgba(255,255,255,.85)}
+
+/* SLIDE 9 — CLAIMS */
+#s9{background:var(--surface)}
+#s9 .claims-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;flex:1;padding-bottom:0}
+#s9 .claim-card{border-radius:12px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
+#s9 .c-product{font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.55;margin-bottom:auto;padding-bottom:16px}
+#s9 .c-copy{font-size:15px;font-weight:700;line-height:1.5}
+#s9 .slide-header{padding:40px 80px 32px;border-bottom:1px solid var(--border)}
+
+/* SLIDE 10 — COLOR SYSTEM */
+#s10{background:#fff}
+#s10 .colors{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:0;flex:1}
+#s10 .color-block{display:flex;flex-direction:column;justify-content:flex-end;padding:32px;border-left:1px solid rgba(255,255,255,.15)}
+#s10 .color-block:first-child{border-left:none}
+#s10 .c-role{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-weight:700}
+#s10 .c-name{font-size:18px;font-weight:900;margin-bottom:4px}
+#s10 .c-hex{font-size:12px;font-family:monospace;opacity:.6}
+#s10 .c-use{font-size:12px;line-height:1.6;margin-top:12px;opacity:.65}
+#s10 .on-dark{color:#fff}
+#s10 .on-light{color:var(--ink)}
+
+/* SLIDE 11 — LOGO */
+#s11{background:var(--surface)}
+#s11 .logo-content{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1}
+#s11 .logo-left{padding:56px 48px 56px 80px;display:flex;flex-direction:column;justify-content:center}
+#s11 .logo-right{display:flex;flex-direction:column;gap:12px;padding:40px 48px 40px 0;justify-content:center}
+#s11 .lbox{border-radius:12px;padding:32px 40px;display:flex;flex-direction:column;gap:8px}
+#s11 .lbox-dark{background:var(--navy)}
+#s11 .lbox-blue{background:var(--blue)}
+#s11 .lbox-white{background:#fff;border:1px solid var(--border)}
+#s11 .lw{font-size:52px;font-weight:900;letter-spacing:-3px;line-height:1}
+#s11 .lctx{font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.35;font-weight:500}
+#s11 .brief-item{display:flex;gap:12px;font-size:14px;color:var(--soft);margin-bottom:10px;align-items:flex-start;line-height:1.6}
+#s11 .brief-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:6px}
+#s11 .no-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+#s11 .no-tag{background:#FFF0F0;color:#A32D2D;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600}
+
+/* SLIDE 12 — LABEL */
+#s12{background:#fff}
+#s12 .label-content{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1}
+#s12 .label-left{padding:48px 40px 48px 80px;display:flex;flex-direction:column;justify-content:center}
+#s12 .label-right{background:var(--surface);padding:40px 48px;display:flex;align-items:center;justify-content:center}
+#s12 .mockup{border-radius:16px;overflow:hidden;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+#s12 .m-top{background:var(--blue);padding:28px 28px;display:grid;grid-template-columns:auto 1px 1fr;gap:0;align-items:center}
+#s12 .m-brand{padding-left:20px}
+#s12 .m-brand-name{font-size:36px;font-weight:900;letter-spacing:-2px;color:#fff;line-height:1}
+#s12 .m-brand-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:3px}
+#s12 .m-vline{background:rgba(255,255,255,.2);height:56px;margin:0 20px}
+#s12 .m-product-ar{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
+#s12 .m-claim{font-size:11px;color:rgba(255,255,255,.65);line-height:1.5}
+#s12 .m-bottom{background:rgba(0,0,20,.3);padding:10px 28px;display:flex;justify-content:space-between;align-items:center}
+#s12 .m-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:4px 12px;border-radius:99px;font-size:9px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase}
+#s12 .m-bdot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+#s12 .m-vol{font-size:10px;color:rgba(255,255,255,.35)}
+#s12 .anatomy{display:flex;flex-direction:column;gap:0}
+#s12 .a-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+#s12 .a-row:last-child{border-bottom:none}
+#s12 .a-num{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#s12 .a-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
+#s12 .a-desc{font-size:12px;color:var(--soft);line-height:1.6}
+
+/* SLIDE 13 — SHELF */
+#s13{background:var(--surface)}
+#s13 .shelf-content{flex:1;display:flex;flex-direction:column;padding:0 80px 48px}
+#s13 .shelf-row{display:flex;gap:6px;align-items:flex-end;background:rgba(0,0,0,.04);padding:24px;border-radius:12px;border:1px solid var(--border);margin-bottom:24px}
+#s13 .s-bottle{border-radius:10px 10px 4px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 8px;color:#fff}
+#s13 .s-bottle-name{font-size:16px;font-weight:900;letter-spacing:-1px}
+#s13 .s-bottle-sub{font-size:8px;letter-spacing:1px;text-transform:uppercase;opacity:.55;margin-top:4px}
+#s13 .s-comp{background:#C8C8C8;border-radius:10px 10px 4px 4px;display:flex;align-items:center;justify-content:center}
+#s13 .s-comp-text{font-size:9px;color:#999;text-align:center;padding:6px}
+#s13 .shelf-labels{display:flex;gap:6px;margin-bottom:16px}
+#s13 .shelf-label-item{flex:1;text-align:center;font-size:10px;color:var(--soft)}
+#s13 .shelf-insight{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#s13 .si-card{background:#fff;border-radius:10px;padding:20px 24px;border:1px solid var(--border)}
+#s13 .si-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+#s13 .si-desc{font-size:13px;color:var(--soft);line-height:1.7}
+
+/* SLIDE 14 — ASSETS */
+#s14{background:var(--navy)}
+#s14 .assets{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px}
+#s14 .asset{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px}
+#s14 .a-icon{width:36px;height:36px;border-radius:8px;background:rgba(0,135,90,.2);margin-bottom:14px;display:flex;align-items:center;justify-content:center}
+#s14 .a-dot{width:14px;height:14px;border-radius:50%;background:var(--green)}
+#s14 .a-name{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+#s14 .a-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7}
+
+/* SLIDE 15 — DO/DONT */
+#s15{background:#fff}
+#s15 .dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1}
+#s15 .dd-col{padding:48px 56px;display:flex;flex-direction:column}
+#s15 .do{background:var(--surface)}
+#s15 .dont{background:#fff0f0}
+#s15 .dd-head{font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:800;margin-bottom:28px}
+#s15 .do .dd-head{color:var(--green)}
+#s15 .dont .dd-head{color:#A32D2D}
+#s15 .dd-item{display:flex;gap:12px;font-size:15px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06);align-items:flex-start;line-height:1.5}
+#s15 .dd-item:last-child{border-bottom:none}
+#s15 .dd-item::before{content:'—';flex-shrink:0;opacity:.3}
+#s15 .slide-header-white{padding:36px 80px;border-bottom:1px solid var(--border)}
+
+/* SLIDE 16 — LAUNCH */
+#s16{background:var(--navy)}
+#s16 .launch-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+#s16 .step{border-radius:12px;padding:32px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+#s16 .step-num{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:16px;font-weight:700}
+#s16 .step-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:12px;line-height:1.3}
+#s16 .step-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.8}
+
+/* SLIDE 17 — EXPANSION */
+#s17{background:var(--surface)}
+#s17 .arch{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:40px}
+#s17 .arch-col{display:flex;flex-direction:column;gap:10px}
+#s17 .arch-header{padding:16px 20px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-align:center}
+#s17 .ah-now{background:var(--blue);color:#fff}
+#s17 .ah-next{background:rgba(10,79,163,.15);color:var(--blue)}
+#s17 .ah-future{background:rgba(0,0,0,.06);color:var(--soft)}
+#s17 .arch-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-size:14px;color:var(--ink);font-weight:500;line-height:1.4;display:flex;align-items:center;gap:10px}
+#s17 .ai-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+#s17 .ai-now{background:var(--blue)}
+#s17 .ai-next{background:var(--green)}
+#s17 .ai-future{background:var(--faint)}
+#s17 .arch-note{font-size:13px;color:var(--soft);line-height:1.7;background:#fff;border-radius:8px;padding:16px 20px;border:1px solid var(--border);border-right:3px solid var(--blue)}
+
+/* SLIDE 18 — CLOSE */
+#s18{background:var(--navy)}
+#s18 .close-inner{flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:80px;position:relative;overflow:hidden}
+#s18 .close-tag{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:24px}
+#s18 .close-mark{font-size:140px;font-weight:900;letter-spacing:-6px;color:#fff;line-height:.85}
+#s18 .close-mark span{color:var(--green)}
+#s18 .close-line{font-size:20px;color:rgba(255,255,255,.4);margin-top:24px;font-weight:300}
+#s18 .close-line strong{color:rgba(255,255,255,.7);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- ══════════════════════ SLIDE 1 — COVER -->
+<div class="slide s-dark active" id="s1">
+  <div class="cover-inner">
+    <div class="bg-circle" style="width:500px;height:500px;border:1px solid rgba(0,135,90,0.08);top:-100px;right:-150px"></div>
+    <div class="bg-circle" style="width:300px;height:300px;border:1px solid rgba(10,79,163,0.12);bottom:-50px;left:5%"></div>
+    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:32px">Brand Direction Document · الإصدار الأول · مايو ٢٠٢٦</div>
+    <div class="wordmark">OMA<span>.</span></div>
+    <div style="width:48px;height:2px;background:var(--green);margin:28px 0"></div>
+    <div style="font-size:18px;color:rgba(255,255,255,.45);font-weight:300;max-width:480px;line-height:1.7">Oxygen Maximum Activation<br>وثيقة توجه البراند — هوم كير · السوق العراقي</div>
+  </div>
+  <div class="meta-row">
+    <div class="meta-item"><span class="meta-label">الكاتيغوري</span><span class="meta-val">Home Care</span></div>
+    <div class="meta-item"><span class="meta-label">السوق</span><span class="meta-val">العراق</span></div>
+    <div class="meta-item"><span class="meta-label">الفئة السعرية</span><span class="meta-val">متوسط وأدنى</span></div>
+    <div class="meta-item"><span class="meta-label">المرحلة</span><span class="meta-val">Brand Direction</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 2 — MARKET PROBLEM -->
+<div class="slide" id="s2">
+  <div style="padding:36px 80px;border-bottom:1px solid var(--border)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Category Tension</div>
+  </div>
+  <div class="split" style="flex:1">
+    <div class="side side-left">
+      <div class="side-tag" style="color:var(--soft)">المحلي</div>
+      <div class="side-big" style="color:var(--ink)">سعر قريب —<br>هوية غايبة</div>
+      <div class="side-desc">البراندات المحلية توفر سعراً مناسباً لكن ما تعطي سبباً واضحاً للاختيار. المستهلك يشتري بالعادة لا بالقرار.</div>
+    </div>
+    <div class="middle">
+      <div class="middle-label">الفضاء الفاضي</div>
+      <div class="vs-dot"></div>
+      <div class="oma-badge">OMA.</div>
+    </div>
+    <div class="side side-right">
+      <div class="side-tag" style="color:var(--soft)">العالمي</div>
+      <div class="side-big" style="color:var(--ink)">ثقة عالية —<br>سعر بعيد</div>
+      <div class="side-desc">البراندات العالمية تملك ثقة المستهلك، لكن سعرها يبعدها عن شريحة واسعة من السوق العراقي.</div>
+    </div>
+  </div>
+  <div style="padding:24px 80px;background:var(--navy);color:rgba(255,255,255,.55);font-size:14px;font-weight:500">
+    ٤٧٪ من المستهلكين العراقيين مستعدين يغيرون البراند — المشكلة مو الولاء، المشكلة إن ما أكو براند يستحق يصير خيار.
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 3 — BRAND ROLE -->
+<div class="slide s-white" id="s3">
+  <div style="padding:36px 80px;border-bottom:1px solid var(--border)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Brand Role</div>
+  </div>
+  <div class="content" style="flex:1">
+    <div class="left">
+      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--faint);margin-bottom:12px">لمين OMA</div>
+      <div class="h3" style="margin-bottom:8px">المستهلك اللي يريد<br>نتيجة <em>بسعر قريب</em></div>
+      <div class="rule"></div>
+      <div class="body" style="max-width:400px;margin-bottom:32px">OMA يخاطب بيت عراقي يومي. بيت يستخدم منظف الصحون باستمرار، يمسح الأرضية أكثر من مرة بالأسبوع، ويهتم بالريحة بعد التنظيف.<br><br>دوره مو بس ينظف — دوره يعطي المستهلك إحساس إن اختياره كان صحيح.</div>
+      <div style="background:var(--surface);border-radius:10px;padding:16px 20px;border-right:3px solid var(--green);font-size:14px;color:var(--ink);line-height:1.7;max-width:380px">
+        OMA ما ينافس بالصوت الأعلى — ينافس بترتيب الفكرة.
+      </div>
+    </div>
+    <div class="right">
+      <div class="buyer-card"><div class="buyer-icon">يريد</div><div class="buyer-text">نتيجة محسوسة بسعر منطقي</div></div>
+      <div class="buyer-card"><div class="buyer-icon">يهتم</div><div class="buyer-text">بالريحة والتنظيف الفعلي، مو بالشكل</div></div>
+      <div class="buyer-card"><div class="buyer-icon">يشتري</div><div class="buyer-text">بالعقل — يحسب لكن ما يشتري الأرخص</div></div>
+      <div class="buyer-card"><div class="buyer-icon">يثق</div><div class="buyer-text">بكلام الجيران والتجربة المباشرة</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 4 — CORE IDEA -->
+<div class="slide" id="s4">
+  <div class="inner">
+    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:32px">The Core Idea</div>
+    <div class="big-idea">OMA يثبت النتيجة —<br><span>بدون ادعاء زائد.</span></div>
+    <div style="width:48px;height:2px;background:var(--green);margin:32px 0"></div>
+    <div style="font-size:18px;color:rgba(255,255,255,.45);max-width:560px;line-height:1.8;font-weight:300">هذه الجملة تحكم كل قرار بالبراند — من حجم اللوكو على الجرة لكلمة الكابشن على السوشيل.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 5 — NAME LOGIC -->
+<div class="slide" id="s5">
+  <div class="header" style="padding:36px 80px;border-bottom:1px solid var(--border)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Name Logic</div>
+  </div>
+  <div class="letters">
+    <div class="letter-block">
+      <div class="l-char" style="color:var(--blue)">O</div>
+      <div class="l-word">Oxygen</div>
+      <div class="l-desc">الأكسجين — العنصر الأساسي للحياة والنشاط. يحكي عن الفعالية بدون ما يشرح.</div>
+    </div>
+    <div class="letter-block">
+      <div class="l-char" style="color:var(--blue2)">M</div>
+      <div class="l-word">Maximum</div>
+      <div class="l-desc">أقصى تركيز ممكن. مو بالغة — هذا ما يعنيه المنتج في تركيبته الفعلية.</div>
+    </div>
+    <div class="letter-block">
+      <div class="l-char" style="color:var(--green)">A</div>
+      <div class="l-word">Activation</div>
+      <div class="l-desc">الفعالية المُفعَّلة. الأكسجين لا يكفي — لازم ينشط. هذا هو الفرق في الوصفة.</div>
+    </div>
+    <div class="letter-block dot-block">
+      <div class="l-char dot-char">.</div>
+      <div class="l-word" style="color:rgba(255,255,255,.7)">النقطة</div>
+      <div class="l-desc" style="color:rgba(255,255,255,.45)">ليست ترقيم — هي جزء من الـ mark البصري. تعطي الاسم نهاية وثقة وتحوله من كلمة إلى بصمة.</div>
+    </div>
+  </div>
+  <div style="padding:20px 80px;background:var(--surface);border-top:1px solid var(--border);font-size:13px;color:var(--soft)">
+    ثلاثة حروف. معنى تقني حقيقي. يُنطق بسهولة بالعراقي وبأي لغة. الاسم القصير يفوز على الرف لأن الذاكرة تحتفظ بما يُنطق بسرعة.
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 6 — RTB -->
+<div class="slide s-dark" id="s6">
+  <div class="slide-inner pad-sm">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Reason to Believe</div>
+    <div class="h3" style="color:#fff">لماذا يُصدَّق <em>OMA</em></div>
+    <div class="cards">
+      <div class="rtb-card">
+        <div class="rtb-num">01</div>
+        <div class="rtb-title">الاسم يحمل معنى وظيفي</div>
+        <div class="rtb-desc">OMA مبني على Oxygen Maximum Activation — مو كلمة ناعمة فارغة. الاسم نفسه أداة تسويقية تحكي عن الفعالية بمصداقية.</div>
+      </div>
+      <div class="rtb-card">
+        <div class="rtb-num">02</div>
+        <div class="rtb-title">النظام البصري يبني الثقة</div>
+        <div class="rtb-desc">الأزرق ثقة، الأخضر فعالية، النيفي ثقل. الألوان مو ديكور — هي طريقة حتى المستهلك يقرأ البراند في ثواني.</div>
+      </div>
+      <div class="rtb-card">
+        <div class="rtb-num">03</div>
+        <div class="rtb-title">الادعاءات قابلة للاختبار</div>
+        <div class="rtb-desc">OMA يكتب جمل يقدر المستهلك يختبرها بنفسه: "يشيل الدهن، يترك ريحة، ينظف من أول مرة." ما في وعود لا يمكن إثباتها.</div>
+      </div>
+      <div class="rtb-card">
+        <div class="rtb-num">04</div>
+        <div class="rtb-title">الثبات يبني Memory Structure</div>
+        <div class="rtb-desc">كل منتج يبين من نفس العائلة. البراند ما ينحفظ من إعلان واحد — ينحفظ بالتكرار الذكي لنفس العناصر.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 7 — PERSONALITY -->
+<div class="slide" id="s7">
+  <div class="slide-header" style="padding:36px 80px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#fff">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Brand Personality</div>
+    <div style="font-size:13px;color:var(--soft)">خمس كلمات تحكم كل قرار</div>
+  </div>
+  <div class="traits" style="background:#fff">
+    <div class="trait"><div class="trait-word"><div class="tw-ar">فعّال</div><div class="tw-dot"></div></div><div class="trait-desc">مو ادعاء — نتيجة. كل عنصر بالتصميم والكوبي يخدم فكرة إن المنتج يشتغل فعلاً. الادعاء الكبير يضر؛ إثبات النتيجة يبني ثقة.</div></div>
+    <div class="trait"><div class="trait-word"><div class="tw-ar">واثق</div><div class="tw-dot"></div></div><div class="trait-desc">ما يصرخ ولا يتسول. يحكي بهدوء لأن اللي عنده نتيجة ما يحتاج يرفع صوته. الثقة تبان بالمساحة الفارغة قبل الكلام.</div></div>
+    <div class="trait"><div class="trait-word"><div class="tw-ar">محلي</div><div class="tw-dot"></div></div><div class="trait-desc">مصنوع بالعراق وللبيت العراقي مو مترجم له. محلي بالروح مو بالشعارات — الفرق إن الأول تحسه والثاني تقرأه فقط.</div></div>
+    <div class="trait"><div class="trait-word"><div class="tw-ar">نظيف</div><div class="tw-dot"></div></div><div class="trait-desc">صفة المنتج والبراند معاً. التصميم نظيف، الكلام نظيف، الرسالة نظيفة. ما أكو تزيين زائد. السادة هو الفخامة هنا.</div></div>
+    <div class="trait"><div class="trait-word"><div class="tw-ar">حاضر</div><div class="tw-dot"></div></div><div class="trait-desc">على الرف، على السوشيل، بيد الجيران. الحضور الثابت يصنع الإلفة، والإلفة تصنع الثقة، والثقة تصنع الشراء.</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 8 — VERBAL IDENTITY -->
+<div class="slide" id="s8">
+  <div style="padding:36px 80px;border-bottom:1px solid rgba(255,255,255,.08)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:700">Verbal Identity</div>
+  </div>
+  <div class="verbal-grid">
+    <div class="verbal-col yes">
+      <div class="v-head">OMA يقول</div>
+      <div class="v-item">يشيل أثر الدهن</div>
+      <div class="v-item">يترك ريحة نظافة</div>
+      <div class="v-item">ينظف من أول استخدام</div>
+      <div class="v-item">نتيجة — مو وعد</div>
+      <div class="v-item">مصنوع للبيوت العراقية</div>
+      <div class="v-item">يعطي لمعة أوضح</div>
+    </div>
+    <div class="verbal-col no">
+      <div class="v-head">OMA لا يقول أبداً</div>
+      <div class="v-item">الأفضل على الإطلاق</div>
+      <div class="v-item">قوة تنظيف ثورية لا مثيل لها</div>
+      <div class="v-item">جودة عالمية بسعر محلي</div>
+      <div class="v-item">خارقة ومتطورة</div>
+      <div class="v-item">نحن نهتم بعائلتك</div>
+      <div class="v-item">الحل الأمثل لكل بيت</div>
+    </div>
+  </div>
+  <div style="padding:20px 80px;background:rgba(0,135,90,.08);font-size:13px;color:rgba(255,255,255,.5);border-top:1px solid rgba(255,255,255,.06)">
+    الجملة الجيدة مو اللي تبين ذكية — الجملة الجيدة هي اللي تخلي المستهلك يفهم ويختبر بسرعة.
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 9 — CLAIM DISCIPLINE -->
+<div class="slide" id="s9">
+  <div class="slide-header" style="padding:36px 80px 32px;border-bottom:1px solid var(--border);background:var(--surface)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Claim Discipline · كوبي جاهز</div>
+  </div>
+  <div style="flex:1;display:flex;gap:12px;padding:32px 80px;background:var(--surface)">
+    <div class="claim-card" style="background:var(--blue);flex:1">
+      <div class="c-product">غسيل الصحون · Dish Soap</div>
+      <div class="c-copy">دهن الأكل يعرف يقاوم — بس ما يعرف يقاوم OMA.</div>
+    </div>
+    <div class="claim-card" style="background:var(--green);flex:1">
+      <div class="c-product">منظف الأرضيات · Floor Cleaner</div>
+      <div class="c-copy">الأرضية لو ما ريحتها اتغيرت — تنظيف ناقص.</div>
+    </div>
+    <div class="claim-card" style="background:var(--green2);flex:1">
+      <div class="c-product">معقم · Disinfectant</div>
+      <div class="c-copy">الجرثومة ما تبان — لكن OMA يعرف وين تكون.</div>
+    </div>
+    <div class="claim-card" style="background:var(--navy);flex:1">
+      <div class="c-product">متعدد الأغراض · Multi-Purpose</div>
+      <div class="c-copy">بيت كامل. منتج وحيد. وصفة وحدة تشتغل.</div>
+    </div>
+    <div class="claim-card" style="background:#0A3A7A;flex:1">
+      <div class="c-product">صوت البراند العام · Brand Voice</div>
+      <div class="c-copy">الأكسجين يشتغل بالهواء — OMA يشتغل بكل مكان ثاني.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 10 — COLOR SYSTEM -->
+<div class="slide" id="s10">
+  <div style="padding:36px 80px;border-bottom:1px solid rgba(255,255,255,.15);background:var(--navy)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700">Visual System · Color</div>
+  </div>
+  <div class="colors">
+    <div class="color-block on-dark" style="background:var(--blue)">
+      <div class="c-role" style="color:rgba(255,255,255,.5)">PRIMARY</div>
+      <div class="c-name">OMA Blue</div>
+      <div class="c-hex">#0A4FA3</div>
+      <div class="c-use">الجرة، الليبل الرئيسي، اللوكو على الأبيض. يعطي ثقة وجدية — لغة الكاتيغوري العالمي بهوية محددة.</div>
+    </div>
+    <div class="color-block on-dark" style="background:var(--green)">
+      <div class="c-role" style="color:rgba(255,255,255,.5)">ACTIVATION</div>
+      <div class="c-name">Oxygen Green</div>
+      <div class="c-hex">#00875A</div>
+      <div class="c-use">لون الفعالية. الـ badge على كل منتج. يحكي عن الأكسجين بصرياً.</div>
+    </div>
+    <div class="color-block on-dark" style="background:var(--navy)">
+      <div class="c-role" style="color:rgba(255,255,255,.35)">FOUNDATION</div>
+      <div class="c-name">Deep Navy</div>
+      <div class="c-hex">#001E4A</div>
+      <div class="c-use">الثقل والعمق. الخلفيات الداكنة والمواد التسويقية.</div>
+    </div>
+    <div class="color-block on-dark" style="background:var(--blue2)">
+      <div class="c-role" style="color:rgba(255,255,255,.4)">VARIANT</div>
+      <div class="c-name">Bright Blue</div>
+      <div class="c-hex">#0066CC</div>
+      <div class="c-use">المنتجات الخفيفة والسوشيل.</div>
+    </div>
+    <div class="color-block on-dark" style="background:var(--green2)">
+      <div class="c-role" style="color:rgba(255,255,255,.4)">VARIANT</div>
+      <div class="c-name">Deep Green</div>
+      <div class="c-hex">#006644</div>
+      <div class="c-use">المعقمات والمنتجات الثقيلة.</div>
+    </div>
+  </div>
+  <div style="padding:20px 80px;background:var(--navy);color:rgba(255,255,255,.4);font-size:13px;border-top:1px solid rgba(255,255,255,.06)">
+    الأزرق ثقة · الأخضر فعالية · النيفي ثقل · الأبيض نظافة — الألوان مو باليت، هي طريقة OMA يتكلم عن نفسه بصرياً.
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 11 — LOGO -->
+<div class="slide" id="s11">
+  <div style="padding:36px 80px;border-bottom:1px solid var(--border);background:var(--surface)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Logo Brief</div>
+  </div>
+  <div class="logo-content">
+    <div class="logo-left">
+      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);margin-bottom:20px">المطلوب من اللوكو</div>
+      <div style="font-size:28px;font-weight:900;letter-spacing:-2px;color:var(--ink);margin-bottom:24px;line-height:1">Wordmark فقط —<br>الاسم هو الـ mark.</div>
+      <div class="brief-item"><div class="brief-dot"></div>Geometric Bold Sans-Serif — يشبه Futura ExtraBold أو Gotham Black أو Neue Haas Grotesk Heavy.</div>
+      <div class="brief-item"><div class="brief-dot"></div>وزن Heavy أو Black. Letter-spacing صفر أو سالب قليلاً.</div>
+      <div class="brief-item"><div class="brief-dot"></div>النقطة بعد OMA جزء من الهوية — تعطيه نهاية وثقة.</div>
+      <div class="brief-item"><div class="brief-dot"></div>Deliverables: SVG + PNG بثلاثة أحجام — كبير، متوسط للسوشيل، صغير للليبل.</div>
+      <div style="margin-top:20px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);margin-bottom:10px">ممنوع</div>
+        <div class="no-list">
+          <span class="no-tag">Serif</span><span class="no-tag">Script</span>
+          <span class="no-tag">Gradient</span><span class="no-tag">Shadow</span>
+          <span class="no-tag">Icon (v1)</span>
+        </div>
+      </div>
+    </div>
+    <div class="logo-right">
+      <div class="lbox lbox-dark">
+        <div class="lw" style="color:#fff">OMA<span style="color:var(--green)">.</span></div>
+        <div class="lctx" style="color:rgba(255,255,255,.3)">على داكن</div>
+      </div>
+      <div class="lbox lbox-blue">
+        <div class="lw" style="color:#fff">OMA<span style="color:rgba(255,255,255,.5)">.</span></div>
+        <div class="lctx" style="color:rgba(255,255,255,.3)">على أزرق — الليبل</div>
+      </div>
+      <div class="lbox lbox-white">
+        <div class="lw" style="color:var(--blue)">OMA<span style="color:var(--green)">.</span></div>
+        <div class="lctx" style="color:rgba(0,0,0,.2)">على أبيض</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 12 — LABEL SYSTEM -->
+<div class="slide" id="s12">
+  <div style="padding:36px 80px;border-bottom:1px solid var(--border);background:#fff">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Label System · Packaging Anatomy</div>
+  </div>
+  <div class="label-content">
+    <div class="label-left">
+      <div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);margin-bottom:20px">تشريح الليبل</div>
+      <div class="anatomy">
+        <div class="a-row"><div class="a-num">١</div><div><div class="a-title">اللوكو — يسار أعلى، ثابت دائماً</div><div class="a-desc">حجم أدنى ١٨pt. المساحة حوله تساوي نصف ارتفاعه. لا ضغط.</div></div></div>
+        <div class="a-row"><div class="a-num">٢</div><div><div class="a-title">اسم المنتج بالعربي — Bold ٢٢pt+</div><div class="a-desc">الإنجليزي ١٢pt Regular تحته مباشرة. العربي هو الأساس.</div></div></div>
+        <div class="a-row"><div class="a-num">٣</div><div><div class="a-title">الـ Claim — سطر أو سطرين</div><div class="a-desc">١٢pt أدنى. يصف النتيجة مو يعدها. الواجهة تبيع في ثلاث ثوان.</div></div></div>
+        <div class="a-row"><div class="a-num">٤</div><div><div class="a-title">Oxygen Active badge — إلزامي بلا استثناء</div><div class="a-desc">في الشريط السفلي. هذا الخيط الي يربط كل المنتجات ببعض.</div></div></div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap">
+        <div style="padding:6px 12px;border-radius:4px;background:var(--blue);color:#fff;font-size:11px;font-weight:700">غسيل صحون #0A4FA3</div>
+        <div style="padding:6px 12px;border-radius:4px;background:var(--green);color:#fff;font-size:11px;font-weight:700">أرضيات #00875A</div>
+        <div style="padding:6px 12px;border-radius:4px;background:var(--green2);color:#fff;font-size:11px;font-weight:700">معقم #006644</div>
+        <div style="padding:6px 12px;border-radius:4px;background:var(--navy);color:#fff;font-size:11px;font-weight:700">متعدد #001E4A</div>
+      </div>
+    </div>
+    <div class="label-right">
+      <div class="mockup">
+        <div class="m-top">
+          <div class="m-brand">
+            <div class="m-brand-name">OMA<span style="color:var(--green)">.</span></div>
+            <div class="m-brand-sub">Oxygen Active</div>
+          </div>
+          <div class="m-vline"></div>
+          <div>
+            <div class="m-product-ar">غسيل الصحون</div>
+            <div class="m-claim">يقطع الدهن من أول مرة · ريحة تفضل معاك</div>
+          </div>
+        </div>
+        <div class="m-bottom">
+          <div class="m-badge"><div class="m-bdot"></div>Oxygen Active Formula</div>
+          <div class="m-vol">750 ml</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 13 — SHELF STRATEGY -->
+<div class="slide" id="s13">
+  <div style="padding:36px 80px;border-bottom:1px solid var(--border);background:var(--surface)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Shelf Strategy</div>
+  </div>
+  <div class="shelf-content" style="padding:32px 80px 48px">
+    <div style="font-size:13px;color:var(--soft);margin-bottom:20px">OMA يربح من الرف قبل الإعلان — العبوة تصمم وهي واقفة بين منافسين على رف حقيقي.</div>
+    <div class="shelf-row">
+      <div class="s-comp" style="flex:1;min-height:80px"><div class="s-comp-text">منافس<br>بدون هوية</div></div>
+      <div class="s-bottle" style="background:var(--blue);flex:1;min-height:110px"><div class="s-bottle-name">OMA.</div><div class="s-bottle-sub">صحون</div></div>
+      <div class="s-bottle" style="background:var(--green);flex:1;min-height:100px"><div class="s-bottle-name">OMA.</div><div class="s-bottle-sub">أرضيات</div></div>
+      <div class="s-comp" style="flex:1;min-height:80px"><div class="s-comp-text">منافس<br>بدون هوية</div></div>
+      <div class="s-bottle" style="background:var(--green2);flex:1;min-height:95px"><div class="s-bottle-name">OMA.</div><div class="s-bottle-sub">معقم</div></div>
+      <div class="s-bottle" style="background:var(--navy);flex:1;min-height:105px"><div class="s-bottle-name">OMA.</div><div class="s-bottle-sub">متعدد</div></div>
+      <div class="s-comp" style="flex:1;min-height:80px"><div class="s-comp-text">منافس<br>بدون هوية</div></div>
+    </div>
+    <div class="shelf-insight">
+      <div class="si-card"><div class="si-title">من بعيد — عائلة واحدة</div><div class="si-desc">Shelf blocking بصري. أكثر من عبوة OMA جنب بعض تسوي حضور مرتب وسط الفوضى.</div></div>
+      <div class="si-card"><div class="si-title">من قريب — كل منتج ينقرأ بسرعة</div><div class="si-desc">الـ structure الثابت يجعل المستهلك يعرف OMA فوراً بغض النظر عن المنتج الذي بيده.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 14 — DISTINCTIVE ASSETS -->
+<div class="slide s-dark" id="s14">
+  <div class="slide-inner pad-sm">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Distinctive Assets</div>
+    <div class="h3" style="color:#fff">الأصول التي <em>تُبنى عليها</em> الذاكرة</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.4);margin-top:8px">أي تصميم أو إعلان ما يحافظ على هالأصول يضعف البراند — حتى لو كان شكله جميل.</div>
+    <div class="assets">
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">الاسم القصير</div><div class="a-desc">ثلاثة حروف تُنطق بسهولة وتُحفظ تلقائياً.</div></div>
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">النقطة بعد OMA</div><div class="a-desc">جزء من الـ mark البصري — ليست ترقيم.</div></div>
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">الأزرق #0A4FA3</div><div class="a-desc">لون الثقة والنظافة — ثابت لا يتغير.</div></div>
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">الأخضر #00875A</div><div class="a-desc">رمز الفعالية والأكسجين — يميز OMA.</div></div>
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">Oxygen Active badge</div><div class="a-desc">الخيط الذي يربط كل المنتجات ببعض.</div></div>
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">جملة النتيجة</div><div class="a-desc">كل claim يصف تجربة قابلة للاختبار.</div></div>
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">هيكل الليبل الثابت</div><div class="a-desc">نفس البنية على كل المنتجات يبني الذاكرة.</div></div>
+      <div class="asset"><div class="a-icon"><div class="a-dot"></div></div><div class="a-name">النبرة الهادئة الواثقة</div><div class="a-desc">لا صراخ، لا مبالغة، لا تسول.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 15 — DO/DONT -->
+<div class="slide" id="s15">
+  <div class="slide-header-white" style="padding:36px 80px;border-bottom:1px solid var(--border);background:#fff">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Visual Direction · Do & Don't</div>
+  </div>
+  <div class="dd-grid">
+    <div class="dd-col do">
+      <div class="dd-head">✓ يصير</div>
+      <div class="dd-item">مساحة فارغة واسعة — هي جزء من التصميم مو فراغ يُملأ</div>
+      <div class="dd-item">Typography hierarchy واضح — العقل يقرأ بالترتيب</div>
+      <div class="dd-item">ألوان ضمن النظام المقرر فقط على كل تطبيق</div>
+      <div class="dd-item">العبوة تُصمم وهي واقفة بين منافسين على رف حقيقي</div>
+      <div class="dd-item">كل عنصر يجاوب: هل يساعد المستهلك يختار؟</div>
+    </div>
+    <div class="dd-col dont">
+      <div class="dd-head">✗ ما يصير</div>
+      <div class="dd-item">عبوة مزدحمة بالشارات والعناصر الزائدة</div>
+      <div class="dd-item">Gradients أو ظلال على اللوكو</div>
+      <div class="dd-item">ألوان خارج النظام بدون موافقة مسبقة</div>
+      <div class="dd-item">Claims أكثر من سطرين على الواجهة الأمامية</div>
+      <div class="dd-item">تصميم "جميل" بدون وظيفة — الجمال وحده ما يبني براند</div>
+    </div>
+  </div>
+  <div style="padding:20px 80px;background:var(--navy);color:rgba(255,255,255,.5);font-size:14px;font-weight:500">
+    المطلوب من التصميم مو يبين "حلو" — يبين "موثوق".
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 16 — LAUNCH -->
+<div class="slide s-dark" id="s16">
+  <div class="slide-inner pad-sm">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Launch Behavior</div>
+    <div class="h3" style="color:#fff">يدخل السوق <em>بهدوء واضح</em></div>
+    <div class="launch-steps">
+      <div class="step">
+        <div class="step-num">على الرف</div>
+        <div class="step-title">الهوية تتكلم قبل المنتج</div>
+        <div class="step-desc">عبوات OMA جنب بعض تسوي حضور بصري مرتب. المستهلك يشوف عائلة واحدة لا منتجات متفرقة. أول انطباع: مرتب، واضح، ما يشبه الفوضى اللي حوله.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">على السوشيل</div>
+        <div class="step-title">يعرّف بالمنطق لا بالعروض</div>
+        <div class="step-desc">أول ثلاثة منشورات تعرّف من OMA وليش الاسم مرتبط بالفعالية وكيف يختلف عما حوله. البراند يعرّف نفسه بثقة مو بضجة.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">بالتجربة</div>
+        <div class="step-title">العينات توصل لناس يحكون</div>
+        <div class="step-desc">توزع بذكاء لا لإتمام كمية. أصحاب محلات، أمهات، عوائل تستخدم منتجات التنظيف باستمرار. التجربة الحقيقية تصنع الكلام الحقيقي.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 17 — EXPANSION -->
+<div class="slide" id="s17">
+  <div style="padding:36px 80px;border-bottom:1px solid var(--border);background:var(--surface)">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);font-weight:700">Brand Architecture · مسار التوسع</div>
+  </div>
+  <div class="slide-inner pad-sm" style="background:var(--surface)">
+    <div style="font-size:15px;color:var(--soft);margin-bottom:0;max-width:600px">OMA ما لازم يبقى منتج — يكبر كنظام. كل توسع يبقى بنفس المنطق: نتيجة واضحة، سعر قريب، حضور نظيف.</div>
+    <div class="arch">
+      <div class="arch-col">
+        <div class="arch-header ah-now">الآن</div>
+        <div class="arch-item"><div class="ai-dot ai-now"></div>غسيل الصحون</div>
+        <div class="arch-item"><div class="ai-dot ai-now"></div>منظف الأرضيات</div>
+        <div class="arch-item"><div class="ai-dot ai-now"></div>معقم ومطهر</div>
+        <div class="arch-item"><div class="ai-dot ai-now"></div>منظف متعدد الأغراض</div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-header ah-next">المرحلة التالية</div>
+        <div class="arch-item"><div class="ai-dot ai-next"></div>خط الروائح والانتعاش</div>
+        <div class="arch-item"><div class="ai-dot ai-next"></div>منتجات ريحة البيت بعد التنظيف</div>
+        <div class="arch-note">الريحة جزء مهم من إحساس النظافة داخل البيت العراقي — توسع طبيعي من الـ core.</div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-header ah-future">المستقبل</div>
+        <div class="arch-item"><div class="ai-dot ai-future"></div>خط قوي للمطابخ والحمامات</div>
+        <div class="arch-item"><div class="ai-dot ai-future"></div>OMA Pro — فئة سعرية أعلى</div>
+        <div class="arch-note">OMA إذا كبر، يكبر كنظام مو كمجموعة منتجات متفرقة. نفس المنطق، فئات جديدة.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SLIDE 18 — CLOSE -->
+<div class="slide" id="s18">
+  <div class="close-inner">
+    <div class="bg-circle" style="width:400px;height:400px;border:1px solid rgba(0,135,90,0.06);bottom:-80px;left:-80px;border-radius:50%;position:absolute;pointer-events:none"></div>
+    <div class="close-tag">OMA Home Care · Brand Direction v1 · مايو ٢٠٢٦</div>
+    <div class="close-mark">OMA<span>.</span></div>
+    <div style="width:48px;height:2px;background:var(--green);margin:28px 0"></div>
+    <div class="close-line">نتيجة <strong>واضحة</strong> — بدون ادعاء زائد.</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="prev" onclick="go(-1)">‹</button>
+  <span class="nav-counter" id="counter">1 / 18</span>
+  <button class="nav-btn" id="next" onclick="go(1)">›</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+function show(n){
+  slides[cur].classList.remove('active');
+  cur = (n + total) % total;
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent = (cur+1) + ' / ' + total;
+  document.getElementById('progress').style.width = ((cur+1)/total*100) + '%';
+}
+function go(d){ show(cur+d); }
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+document.getElementById('progress').style.width = (1/total*100) + '%';
+</script>
+</body>
+</html>
